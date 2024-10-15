@@ -360,7 +360,13 @@ public class MatrixV0<T> implements Matrix<T> {
    * @return a copy of the matrix.
    */
   public Matrix clone() {
-    return this;        // STUB
+    MatrixV0<T> cloneMatrix = new MatrixV0<>(width, height, defaultValue); // Create new matrix with same dimensions
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        cloneMatrix.set(i, j, data[i][j]); // Copy each element to the cloned matrix
+      } // for
+    } // for
+    return cloneMatrix; // Return the cloned matrix
   } // clone()
 
   /**
@@ -373,7 +379,24 @@ public class MatrixV0<T> implements Matrix<T> {
    * height, and equal elements; false otherwise.
    */
   public boolean equals(Object other) {
-    return this == other;       // STUB
+    if (this == other) {
+      return true; // If they are the same object, return true
+    } // if
+    if (!(other instanceof MatrixV0)) {
+      return false; // If the other object is not a MatrixV0, return false
+    } // if
+    MatrixV0<?> otherMatrix = (MatrixV0<?>) other; // Cast to MatrixV0
+    if (width != otherMatrix.width || height != otherMatrix.height) {
+      return false; // If dimensions are different, return false
+    } // if
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        if (!data[i][j].equals(otherMatrix.get(i, j))) {
+          return false; // If any element is different, return false
+        } // if
+      } // for
+    } // for
+    return true; // If all elements match, return true
   } // equals(Object)
 
   /**
