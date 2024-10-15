@@ -313,8 +313,12 @@ public class MatrixV0<T> implements Matrix<T> {
    */
   public void fillRegion(int startRow, int startCol, int endRow, int endCol,
       T val) {
-    // STUB
-  } // fillRegion(int, int, int, int, T)
+        for (int i = startRow; i < endRow; i++) {
+          for (int j = startCol; j < endCol; j++) {
+            data[i][j] = val; // Fill each element in the specified region
+          } // for
+        } // for
+      } // fillRegion(int, int, int, int, T)
 
   /**
    * Fill a line (horizontal, vertical, diagonal).
@@ -339,8 +343,14 @@ public class MatrixV0<T> implements Matrix<T> {
    */
   public void fillLine(int startRow, int startCol, int deltaRow, int deltaCol,
       int endRow, int endCol, T val) {
-    // STUB
-  } // fillLine(int, int, int, int, int, int, T)
+        int row = startRow;
+        int col = startCol;
+        while (row < endRow && col < endCol) {
+          data[row][col] = val; // Fill each element in the line
+          row += deltaRow; // Move to the next row
+          col += deltaCol; // Move to the next column
+        } // while
+      } // fillLine(int, int, int, int, int, int, T)
 
   /**
    * A make a copy of the matrix. May share references (e.g., if individual
