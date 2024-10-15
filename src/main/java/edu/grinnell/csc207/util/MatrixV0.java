@@ -254,7 +254,18 @@ public class MatrixV0<T> implements Matrix<T> {
    *   If the row is negative or greater than or equal to the height.
    */
   public void deleteRow(int row) {
-    // STUB
+    if (row < 0 || row >= height) {
+      throw new IndexOutOfBoundsException("Invalid row index.");
+    } // if
+    T[][] newData = (T[][]) new Object[height - 1][width]; // Create new array with one less row
+    for (int i = 0; i < row; i++) {
+      newData[i] = data[i]; // Copy rows up to deletion point
+    } // for
+    for (int i = row; i < height - 1; i++) {
+      newData[i] = data[i + 1]; // Copy remaining rows after deletion point
+    } // for
+    data = newData; // Update reference
+    height--; // Decrease height
   } // deleteRow(int)
 
   /**
@@ -267,7 +278,20 @@ public class MatrixV0<T> implements Matrix<T> {
    *   If the column is negative or greater than or equal to the width.
    */
   public void deleteCol(int col) {
-    // STUB
+    if (col < 0 || col >= width) {
+      throw new IndexOutOfBoundsException("Invalid column index.");
+    } // if
+    T[][] newData = (T[][]) new Object[height][width - 1]; // Create new array with one less column
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < col; j++) {
+        newData[i][j] = data[i][j]; // Copy columns up to deletion point
+      } // for
+      for (int j = col; j < width - 1; j++) {
+        newData[i][j] = data[i][j + 1]; // Copy remaining columns after deletion point
+      } // for
+    } // for
+    data = newData; // Update reference
+    width--; // Decrease width
   } // deleteCol(int)
 
   /**
