@@ -140,7 +140,22 @@ public class MatrixV0<T> implements Matrix<T> {
    *   If the row is negative or greater than the height.
    */
   public void insertRow(int row) {
-    // STUB
+    if (row < 0 || row > height) {
+      throw new IndexOutOfBoundsException("Invalid row index.");
+    } // if
+    T[][] newData = (T[][]) new Object[height + 1][width]; // Create new array with additional row
+    for (int i = 0; i < row; i++) {
+      newData[i] = data[i]; // Copy rows up to the insertion point
+    } // for
+    newData[row] = (T[]) new Object[width]; // Insert new row with default values
+    for (int j = 0; j < width; j++) {
+      newData[row][j] = defaultValue; // Fill new row with default values
+    } // for
+    for (int i = row + 1; i <= height; i++) {
+      newData[i] = data[i - 1]; // Copy remaining rows after insertion point
+    } // for
+    data = newData; // Update reference
+    height++; // Increase height
   } // insertRow(int)
 
   /**
@@ -157,7 +172,19 @@ public class MatrixV0<T> implements Matrix<T> {
    *   If the size of vals is not the same as the width of the matrix.
    */
   public void insertRow(int row, T[] vals) throws ArraySizeException {
-    // STUB
+    if (row < 0 || row > height || vals.length != width) {
+      throw new ArraySizeException("Invalid row index or size of values.");
+    } // if
+    T[][] newData = (T[][]) new Object[height + 1][width]; // Create new array with additional row
+    for (int i = 0; i < row; i++) {
+      newData[i] = data[i]; // Copy rows up to insertion point
+    } // for
+    newData[row] = vals; // Insert new row with provided values
+    for (int i = row + 1; i <= height; i++) {
+      newData[i] = data[i - 1]; // Copy remaining rows after insertion point
+    } // for
+    data = newData; // Update reference
+    height++; // Increase height
   } // insertRow(int, T[])
 
   /**
@@ -170,9 +197,22 @@ public class MatrixV0<T> implements Matrix<T> {
    *   If the column is negative or greater than the width.
    */
   public void insertCol(int col) {
-    // STUB
+    if (col < 0 || col > width) {
+      throw new IndexOutOfBoundsException("Invalid column index.");
+    } // if
+    T[][] newData = (T[][]) new Object[height][width + 1]; // Create new array with additional column
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < col; j++) {
+        newData[i][j] = data[i][j]; // Copy columns up to insertion point
+      } // for
+      newData[i][col] = defaultValue; // Insert new column with default values
+      for (int j = col + 1; j <= width; j++) {
+        newData[i][j] = data[i][j - 1]; // Copy remaining columns after insertion point
+      } // for
+    } // for
+    data = newData; // Update reference
+    width++; // Increase width
   } // insertCol(int)
-
   /**
    * Insert a column filled with the specified values.
    *
@@ -187,7 +227,21 @@ public class MatrixV0<T> implements Matrix<T> {
    *   If the size of vals is not the same as the height of the matrix.
    */
   public void insertCol(int col, T[] vals) throws ArraySizeException {
-    // STUB
+    if (col < 0 || col > width || vals.length != height) {
+      throw new ArraySizeException("Invalid column index or size of values.");
+    } // if
+    T[][] newData = (T[][]) new Object[height][width + 1]; // Create new array with additional column
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < col; j++) {
+        newData[i][j] = data[i][j]; // Copy columns up to insertion point
+      } // for
+      newData[i][col] = vals[i]; // Insert new column with provided values
+      for (int j = col + 1; j <= width; j++) {
+        newData[i][j] = data[i][j - 1]; // Copy remaining columns after insertion point
+      } // for
+    } // for
+    data = newData; // Update reference
+    width++; // Increase width
   } // insertCol(int, T[])
 
   /**
