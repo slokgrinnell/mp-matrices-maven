@@ -3,7 +3,7 @@ package edu.grinnell.csc207.util;
 /**
  * An implementation of two-dimensional matrices.
  *
- * @author Your Name Here
+ * @author Slok Rajbhandari
  * @author Samuel A. Rebelsky
  *
  * @param <T>
@@ -13,6 +13,11 @@ public class MatrixV0<T> implements Matrix<T> {
   // +--------+------------------------------------------------------
   // | Fields |
   // +--------+
+
+  private int width; // Matrix width
+  private int height; // Matrix height
+  private T[][] data; // 2D array to store matrix data
+  private T defaultValue; // Default value for matrix elements
 
   // +--------------+------------------------------------------------
   // | Constructors |
@@ -33,7 +38,18 @@ public class MatrixV0<T> implements Matrix<T> {
    *   If either the width or height are negative.
    */
   public MatrixV0(int width, int height, T def) {
-    // STUB
+    if (width < 0 || height < 0) {
+      throw new NegativeArraySizeException("Width and height must be non-negative.");
+    } // if
+    this.width = width; // Set the width
+    this.height = height; // Set the height
+    this.defaultValue = def; // Set the default value
+    data = (T[][]) new Object[height][width]; // Create 2D array
+    for (int i = 0; i < height; i++) {
+      for (int j = 0; j < width; j++) {
+        data[i][j] = def; // Fill each cell with default value
+      } // for
+    } // for
   } // MatrixV0(int, int, T)
 
   /**
@@ -49,7 +65,7 @@ public class MatrixV0<T> implements Matrix<T> {
    *   If either the width or height are negative.
    */
   public MatrixV0(int width, int height) {
-    this(width, height, null);
+    this(width, height, null); // Call the other constructor with null default value
   } // MatrixV0
 
   // +--------------+------------------------------------------------
@@ -70,7 +86,10 @@ public class MatrixV0<T> implements Matrix<T> {
    *   If either the row or column is out of reasonable bounds.
    */
   public T get(int row, int col) {
-    return null;        // STUB
+    if (row < 0 || row >= height || col < 0 || col >= width) {
+      throw new IndexOutOfBoundsException("Row or column is out of bounds.");
+    } // if
+    return data[row][col]; // Return the element at specified position
   } // get(int, int)
 
   /**
@@ -87,7 +106,10 @@ public class MatrixV0<T> implements Matrix<T> {
    *   If either the row or column is out of reasonable bounds.
    */
   public void set(int row, int col, T val) {
-    // STUB
+    if (row < 0 || row >= height || col < 0 || col >= width) {
+      throw new IndexOutOfBoundsException("Row or column is out of bounds.");
+    } // if
+    data[row][col] = val; // Set the element at specified position
   } // set(int, int, T)
 
   /**
@@ -96,7 +118,7 @@ public class MatrixV0<T> implements Matrix<T> {
    * @return the number of rows.
    */
   public int height() {
-    return 5;   // STUB
+    return height; // Return the number of rows
   } // height()
 
   /**
@@ -105,7 +127,7 @@ public class MatrixV0<T> implements Matrix<T> {
    * @return the number of columns.
    */
   public int width() {
-    return 3;   // STUB
+    return width; // Return the number of columns
   } // width()
 
   /**

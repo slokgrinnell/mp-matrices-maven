@@ -6,6 +6,7 @@ import java.io.PrintWriter;
  * Two-dimensional matrices.
  *
  * @author Samuel A. Rebelsky
+ * @author Slok Rajbhandari
  *
  * @param <T>
  *   The type of value stored in the matrix.
