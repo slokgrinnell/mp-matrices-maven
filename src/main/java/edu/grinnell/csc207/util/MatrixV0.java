@@ -172,20 +172,23 @@ public class MatrixV0<T> implements Matrix<T> {
    *   If the size of vals is not the same as the width of the matrix.
    */
   public void insertRow(int row, T[] vals) throws ArraySizeException {
-    if (row < 0 || row > height || vals.length != width) {
-      throw new ArraySizeException("Invalid row index or size of values.");
+    if (row < 0 || row > height) {
+        throw new IndexOutOfBoundsException("Invalid row index."); // Throw IndexOutOfBoundsException for invalid index
+    } // if
+    if (vals.length != width) {
+        throw new ArraySizeException("Size of values array does not match matrix width."); // Throw ArraySizeException for mismatched array size
     } // if
     T[][] newData = (T[][]) new Object[height + 1][width]; // Create new array with additional row
     for (int i = 0; i < row; i++) {
-      newData[i] = data[i]; // Copy rows up to insertion point
+        newData[i] = data[i]; // Copy rows up to insertion point
     } // for
     newData[row] = vals; // Insert new row with provided values
     for (int i = row + 1; i <= height; i++) {
-      newData[i] = data[i - 1]; // Copy remaining rows after insertion point
+        newData[i] = data[i - 1]; // Copy remaining rows after insertion point
     } // for
     data = newData; // Update reference
     height++; // Increase height
-  } // insertRow(int, T[])
+} // insertRow(int, T[])
 
   /**
    * Insert a column filled with the default value.
@@ -227,22 +230,25 @@ public class MatrixV0<T> implements Matrix<T> {
    *   If the size of vals is not the same as the height of the matrix.
    */
   public void insertCol(int col, T[] vals) throws ArraySizeException {
-    if (col < 0 || col > width || vals.length != height) {
-      throw new ArraySizeException("Invalid column index or size of values.");
+    if (col < 0 || col > width) {
+        throw new IndexOutOfBoundsException("Invalid column index."); // Throw IndexOutOfBoundsException for invalid index
+    } // if
+    if (vals.length != height) {
+        throw new ArraySizeException("Size of values array does not match matrix height."); // Throw ArraySizeException for mismatched array size
     } // if
     T[][] newData = (T[][]) new Object[height][width + 1]; // Create new array with additional column
     for (int i = 0; i < height; i++) {
-      for (int j = 0; j < col; j++) {
-        newData[i][j] = data[i][j]; // Copy columns up to insertion point
-      } // for
-      newData[i][col] = vals[i]; // Insert new column with provided values
-      for (int j = col + 1; j <= width; j++) {
-        newData[i][j] = data[i][j - 1]; // Copy remaining columns after insertion point
-      } // for
+        for (int j = 0; j < col; j++) {
+            newData[i][j] = data[i][j]; // Copy columns up to insertion point
+        } // for
+        newData[i][col] = vals[i]; // Insert new column with provided values
+        for (int j = col + 1; j <= width; j++) {
+            newData[i][j] = data[i][j - 1]; // Copy remaining columns after insertion point
+        } // for
     } // for
     data = newData; // Update reference
     width++; // Increase width
-  } // insertCol(int, T[])
+} // insertCol(int, T[])
 
   /**
    * Delete a row.
