@@ -14,10 +14,26 @@ public class MatrixV0<T> implements Matrix<T> {
   // | Fields |
   // +--------+
 
-  private int width; // Matrix width
-  private int height; // Matrix height
-  private T[][] data; // 2D array to store matrix data
-  private T defaultValue; // Default value for matrix elements
+  /**
+   * The width of the matrix.
+   */
+  private int width;
+
+  /**
+   * The height of the matrix.
+   */
+  private int height;
+
+  /**
+   * 2D array to store matrix data.
+   */
+  private T[][] data;
+
+  /**
+   * Default value for matrix elements when not set.
+   */
+  private T defaultValue;
+
 
   // +--------------+------------------------------------------------
   // | Constructors |
@@ -173,22 +189,22 @@ public class MatrixV0<T> implements Matrix<T> {
    */
   public void insertRow(int row, T[] vals) throws ArraySizeException {
     if (row < 0 || row > height) {
-        throw new IndexOutOfBoundsException("Invalid row index."); // Throw IndexOutOfBoundsException for invalid index
+      throw new IndexOutOfBoundsException("Invalid row index.");
     } // if
     if (vals.length != width) {
-        throw new ArraySizeException("Size of values array does not match matrix width."); // Throw ArraySizeException for mismatched array size
+      throw new ArraySizeException("Size of values array does not match matrix width.");
     } // if
     T[][] newData = (T[][]) new Object[height + 1][width]; // Create new array with additional row
     for (int i = 0; i < row; i++) {
-        newData[i] = data[i]; // Copy rows up to insertion point
+      newData[i] = data[i]; // Copy rows up to insertion point
     } // for
     newData[row] = vals; // Insert new row with provided values
     for (int i = row + 1; i <= height; i++) {
-        newData[i] = data[i - 1]; // Copy remaining rows after insertion point
+      newData[i] = data[i - 1]; // Copy remaining rows after insertion point
     } // for
     data = newData; // Update reference
     height++; // Increase height
-} // insertRow(int, T[])
+  } // insertRow(int, T[])
 
   /**
    * Insert a column filled with the default value.
@@ -203,7 +219,7 @@ public class MatrixV0<T> implements Matrix<T> {
     if (col < 0 || col > width) {
       throw new IndexOutOfBoundsException("Invalid column index.");
     } // if
-    T[][] newData = (T[][]) new Object[height][width + 1]; // Create new array with additional column
+    T[][] newData = (T[][]) new Object[height][width + 1];
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < col; j++) {
         newData[i][j] = data[i][j]; // Copy columns up to insertion point
@@ -231,24 +247,24 @@ public class MatrixV0<T> implements Matrix<T> {
    */
   public void insertCol(int col, T[] vals) throws ArraySizeException {
     if (col < 0 || col > width) {
-        throw new IndexOutOfBoundsException("Invalid column index."); // Throw IndexOutOfBoundsException for invalid index
+      throw new IndexOutOfBoundsException("Invalid column index.");
     } // if
     if (vals.length != height) {
-        throw new ArraySizeException("Size of values array does not match matrix height."); // Throw ArraySizeException for mismatched array size
+      throw new ArraySizeException("Size of values array does not match matrix height.");
     } // if
-    T[][] newData = (T[][]) new Object[height][width + 1]; // Create new array with additional column
+    T[][] newData = (T[][]) new Object[height][width + 1];
     for (int i = 0; i < height; i++) {
-        for (int j = 0; j < col; j++) {
-            newData[i][j] = data[i][j]; // Copy columns up to insertion point
-        } // for
-        newData[i][col] = vals[i]; // Insert new column with provided values
-        for (int j = col + 1; j <= width; j++) {
-            newData[i][j] = data[i][j - 1]; // Copy remaining columns after insertion point
-        } // for
+      for (int j = 0; j < col; j++) {
+        newData[i][j] = data[i][j]; // Copy columns up to insertion point
+      } // for
+      newData[i][col] = vals[i]; // Insert new column with provided values
+      for (int j = col + 1; j <= width; j++) {
+        newData[i][j] = data[i][j - 1]; // Copy remaining columns after insertion point
+      } // for
     } // for
     data = newData; // Update reference
     width++; // Increase width
-} // insertCol(int, T[])
+  } // insertCol(int, T[])
 
   /**
    * Delete a row.
@@ -317,14 +333,13 @@ public class MatrixV0<T> implements Matrix<T> {
    * @throw IndexOutOfBoundsException
    *   If the rows or columns are inappropriate.
    */
-  public void fillRegion(int startRow, int startCol, int endRow, int endCol,
-      T val) {
-        for (int i = startRow; i < endRow; i++) {
-          for (int j = startCol; j < endCol; j++) {
-            data[i][j] = val; // Fill each element in the specified region
-          } // for
-        } // for
-      } // fillRegion(int, int, int, int, T)
+  public void fillRegion(int startRow, int startCol, int endRow, int endCol, T val) {
+    for (int i = startRow; i < endRow; i++) {
+      for (int j = startCol; j < endCol; j++) {
+        data[i][j] = val; // Fill each element in the specified region
+      } // for
+    } // for
+  } // fillRegion(int, int, int, int, T)
 
   /**
    * Fill a line (horizontal, vertical, diagonal).
@@ -347,16 +362,16 @@ public class MatrixV0<T> implements Matrix<T> {
    * @throw IndexOutOfBoundsException
    *   If the rows or columns are inappropriate.
    */
-  public void fillLine(int startRow, int startCol, int deltaRow, int deltaCol,
-      int endRow, int endCol, T val) {
-        int row = startRow;
-        int col = startCol;
-        while (row < endRow && col < endCol) {
-          data[row][col] = val; // Fill each element in the line
-          row += deltaRow; // Move to the next row
-          col += deltaCol; // Move to the next column
-        } // while
-      } // fillLine(int, int, int, int, int, int, T)
+  public void fillLine(int startRow, int startCol, int deltaRow,
+      int deltaCol, int endRow, int endCol, T val) {
+    int row = startRow;
+    int col = startCol;
+    while (row < endRow && col < endCol) {
+      data[row][col] = val; // Fill each element in the line
+      row += deltaRow; // Move to the next row
+      col += deltaCol; // Move to the next column
+    } // while
+  } // fillLine(int, int, int, int, int, int, T)
 
   /**
    * A make a copy of the matrix. May share references (e.g., if individual
@@ -366,7 +381,7 @@ public class MatrixV0<T> implements Matrix<T> {
    * @return a copy of the matrix.
    */
   public Matrix clone() {
-    MatrixV0<T> cloneMatrix = new MatrixV0<>(width, height, defaultValue); // Create new matrix with same dimensions
+    MatrixV0<T> cloneMatrix = new MatrixV0<>(width, height, defaultValue);
     for (int i = 0; i < height; i++) {
       for (int j = 0; j < width; j++) {
         cloneMatrix.set(i, j, data[i][j]); // Copy each element to the cloned matrix
